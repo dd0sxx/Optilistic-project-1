@@ -14,7 +14,6 @@ contract EvenlyDistribute is Ownable {
     uint totalContribution;
     uint totalParticipants;
 
-
     constructor() {
         maxContribution = 0;
         largestContribution = 0;
@@ -22,6 +21,10 @@ contract EvenlyDistribute is Ownable {
         totalParticipants = 0;
     }
 
+    function updateMax (uint _newMax) public onlyOwner {
+        require(_newMax >= largestContribution, 'updateMax: _newMax is to small');
+        maxContribution = _newMax;
+    }
 
 
 }
