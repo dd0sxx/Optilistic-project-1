@@ -13,13 +13,16 @@ contract EvenlyDistribute is Ownable {
     uint private largestContribution;
     uint private totalContributions;
     uint private totalParticipants;
+    uint public startTime;
 
     constructor() {
-        // unsure if this is neccessary or if units are 0 by default
+        // unsure if this is neccessary or if units are 0 / bools are false by default
+        locked = false;
         maxContribution = 0;
         largestContribution = 0;
         totalContributions = 0;
         totalParticipants = 0;
+        startTime = block.timestamp;
     }
 
     function updateMax (uint _newMax) public onlyOwner {
@@ -29,6 +32,19 @@ contract EvenlyDistribute is Ownable {
     }
 
     function lockContract () public onlyOwner {
+        locked = true;
+    }
+
+    function withdraw () public {
+        // check that game is locked or it has been over a month, and the user has a valid balance
+            require (locked, 'withdraw: game has not been locked yet');
+
+        require (balances[msg.sender] >= 0.1 ether, 'withdraw: you are not eligible to withdraw funds');
+
+    }
+
+    function lockContractOnTime () public {
+        require (block.timestamp >= startTime + 30 days);
         locked = true;
     }
 
