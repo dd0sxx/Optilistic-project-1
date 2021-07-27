@@ -49,7 +49,11 @@ contract EvenlyDistribute is Ownable {
         // check that game is locked or it has been over a month, and the user has a valid balance
         require (locked, 'withdraw: game has not been locked yet');
         require (balances[msg.sender] >= 0.1 ether, 'withdraw: you are not eligible to withdraw funds');
+
+        uint _amount = totalContributions.div(totalParticipants);
         balances[msg.sender] = 0;
+        (bool success, bytes memory data) = msg.sender.call{value: _amount}("");
+        // we could emit an event here with the success and data variables, or change the function to return these values
     }
 
     fallback() external payable {
