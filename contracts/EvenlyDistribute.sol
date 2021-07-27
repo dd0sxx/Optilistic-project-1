@@ -15,6 +15,13 @@ contract EvenlyDistribute is Ownable {
     uint totalParticipants;
 
 
+    constructor() {
+        maxContribution = 0;
+        largestContribution = 0;
+        totalContribution = 0;
+        totalParticipants = 0;
+    }
+
 
 
 }
