@@ -28,6 +28,11 @@ contract EvenlyDistribute is Ownable {
         startTime = block.timestamp;
     }
 
+    //function to check how much you have contributed
+    function checkBalance (address _address) public view returns (uint) {
+        return balances[_address];
+    }
+
     // function to allow the owner to adjust the maximum contribution
     function updateMax (uint _newMax) public onlyOwner {
         require(_newMax >= largestContribution, 'updateMax: _newMax is smaller than largestContribution');
