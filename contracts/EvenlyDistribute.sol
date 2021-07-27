@@ -14,6 +14,7 @@ contract EvenlyDistribute is Ownable {
     uint private totalContributions;
     uint private totalParticipants;
     uint public startTime;
+    uint private lockTime;
 
     constructor() {
         // unsure if this is neccessary or if units are 0 / bools are false by default
@@ -32,20 +33,23 @@ contract EvenlyDistribute is Ownable {
     }
 
     function lockContract () public onlyOwner {
+        require (!locked, 'lockContract: contract is already locked');
         locked = true;
+        lockTime = block.timestamp;
+    }
+
+    // this exists incase the owner does not lock the contract within one month of the start date. Users can unlock the contract themselves after one month has passed.
+    function lockContractOnTime () public {
+        require (block.timestamp >= startTime + 30 days && !locked, 'lockContractOnTime: 1 month has not passed or the contract is already locked');
+        locked = true;
+        lockTime = block.timestamp;
     }
 
     function withdraw () public {
         // check that game is locked or it has been over a month, and the user has a valid balance
-            require (locked, 'withdraw: game has not been locked yet');
-
+        require (locked, 'withdraw: game has not been locked yet');
         require (balances[msg.sender] >= 0.1 ether, 'withdraw: you are not eligible to withdraw funds');
-
-    }
-
-    function lockContractOnTime () public {
-        require (block.timestamp >= startTime + 30 days);
-        locked = true;
+        balances[msg.sender] = 0;
     }
 
     fallback() external payable {
