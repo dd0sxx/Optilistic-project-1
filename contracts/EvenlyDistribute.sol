@@ -15,6 +15,7 @@ contract EvenlyDistribute is Ownable {
     uint private totalParticipants;
 
     constructor() {
+        // unsure if this is neccessary or if units are 0 by default
         maxContribution = 0;
         largestContribution = 0;
         totalContributions = 0;
@@ -27,7 +28,9 @@ contract EvenlyDistribute is Ownable {
         maxContribution = _newMax;
     }
 
-
+    function lockContract () public onlyOwner {
+        locked = true;
+    }
 
     fallback() external payable {
         //game cannot be locked, contribution cannot be smaller than 1 ether, and contribution cannot exceed maximum set by owner
