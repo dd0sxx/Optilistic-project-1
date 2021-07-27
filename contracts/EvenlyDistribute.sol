@@ -20,10 +20,11 @@ contract EvenlyDistribute is Ownable {
     constructor() {
         // unsure if some of this instantiation is neccessary (if units are 0 / bools are false by default)
         locked = false;
-        maxContribution = 0;
-        largestContribution = 0;
-        totalContributions = 0;
-        totalParticipants = 0;
+        // pretty sure uints are 0 by default
+        // maxContribution = 0;
+        // largestContribution = 0;
+        // totalContributions = 0;
+        // totalParticipants = 0;
         startTime = block.timestamp;
     }
 
@@ -56,6 +57,7 @@ contract EvenlyDistribute is Ownable {
 
         uint _amount = totalContributions.div(totalParticipants);
         balances[msg.sender] = 0;
+
         (bool success, bytes memory data) = msg.sender.call{value: _amount}("");
         // we could emit an event here with the success and data variables, or change the function to return these values
     }
@@ -64,12 +66,18 @@ contract EvenlyDistribute is Ownable {
     function resetGame () public onlyOwner {
         require (block.timestamp >= lockTime + 7 days);
         // I could try and loop through the balances array and send ether to anyone who hasn't already withdrawn it, but I'll ignore that detail for now. I could also keep it myself as the owner and provide a function for me to withdraw any leftover funds, or just have it rollover into the next game's earnings.
-        // mapping(address => uint) public balances;
+        
+        //this loop resets the mapping to default
+        for (uint i; i < contributors.length; i += 1) {
+            balances[contributors[i]] = 0;     
+        }
+
         largestContribution = 0; 
         totalContributions = 0;
         totalParticipants = 0;
-        startTime= block.timestamp; 
+        delete contributors; //I've read that delete is a gas efficient way to reassign an empty array
         locked = false;
+        startTime= block.timestamp; 
     }
 
     //fallback is equivalent to the contribute function, allows users to enter the game
