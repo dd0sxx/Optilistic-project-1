@@ -7,5 +7,14 @@ contract EvenlyDistribute is Ownable {
 
     using SafeMath for uint;
 
+    mapping(address => uint) public balances;
+    bool private locked;
+    uint maxContribution;
+    uint largestContribution;
+    uint totalContribution;
+    uint totalParticipants;
+
+
+
 
 }
