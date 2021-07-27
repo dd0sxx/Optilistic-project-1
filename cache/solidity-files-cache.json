@@ -142,42 +142,6 @@
         "Context"
       ]
     },
-    "/Users/costar/Documents/Optilistic-project-1/contracts/Greeter.sol": {
-      "lastModificationDate": 1627428088333,
-      "contentHash": "3e842e8d20d21476fa9ee5adae6c9d39",
-      "sourceName": "contracts/Greeter.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "hardhat/console.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Greeter"
-      ]
-    },
     "/Users/costar/Documents/Optilistic-project-1/node_modules/hardhat/console.sol": {
       "lastModificationDate": 1627428051917,
       "contentHash": "cc4777addd464ea56fa35b1c45df0591",
@@ -210,40 +174,6 @@
       ],
       "artifacts": [
         "console"
-      ]
-    },
-    "/Users/costar/Documents/Optilistic-project-1/contracts/Token.sol": {
-      "lastModificationDate": 1627427590683,
-      "contentHash": "b84cfdf9472536ff9fac9077a4a88bc1",
-      "sourceName": "contracts/Token.sol",
-      "solcConfig": {
-        "version": "0.8.4",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "Token"
       ]
     }
   }
