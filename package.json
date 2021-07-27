@@ -2,7 +2,10 @@
   "name": "optilistic-project-1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "hardhat.config.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,15 +19,15 @@
     "url": "https://github.com/dd0sxx/Optilistic-project-1/issues"
   },
   "homepage": "https://github.com/dd0sxx/Optilistic-project-1#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.2.0",
+    "hardhat": "^2.5.0"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.4.2",
-    "hardhat": "^2.5.0"
-  },
-  "dependencies": {
-    "@openzeppelin/contracts": "^4.2.0"
+    "ethers": "^5.4.2"
   }
 }
