@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/costar/Documents/Optilistic-project-1/contracts/EvenlyDistribute.sol": {
-      "lastModificationDate": 1627487864561,
-      "contentHash": "61f387d0f4bdf7cfac458e7b14867095",
+      "lastModificationDate": 1627488002582,
+      "contentHash": "82e426d94a1ebdf6f06c21e471150563",
       "sourceName": "contracts/EvenlyDistribute.sol",
       "solcConfig": {
         "version": "0.8.4",

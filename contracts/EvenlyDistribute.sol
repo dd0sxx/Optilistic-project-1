@@ -18,10 +18,10 @@ contract EvenlyDistribute is Ownable {
     address[] contributors; //list of unique addresses that have contributed
 
     constructor() {
+        maxContribution = 100 ether;
         // unsure if some of this instantiation is neccessary (if units are 0 / bools are false by default)
         locked = false;
         // pretty sure uints are 0 by default
-        // maxContribution = 0;
         // largestContribution = 0;
         // totalContributions = 0;
         // totalParticipants = 0;

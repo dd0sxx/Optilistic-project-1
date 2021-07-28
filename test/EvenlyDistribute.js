@@ -1,40 +1,48 @@
-const { expect } = require("chai");
+const { expect } = require("chai")
 
 describe("EvenlyDistribute contract", function () {
 
-  let alice;
-  let bob;
-  let chris;
+  let alice
+  let bob
+  let chris
   let EvenlyDistribute
-  let evenlyDistribute;
+  let evenlyDistribute
 
   beforeEach ( async () => {
-    [a, b, c] = await ethers.getSigners();
+    [a, b, c] = await ethers.getSigners()
 
-    alice = a;
-    bob = b;
-    chris = c;
+    alice = a
+    bob = b
+    chris = c
   
-    EvenlyDistribute = await ethers.getContractFactory("EvenlyDistribute");
+    EvenlyDistribute = await ethers.getContractFactory("EvenlyDistribute")
 
-    evenlyDistribute = await EvenlyDistribute.deploy();
+    evenlyDistribute = await EvenlyDistribute.deploy()
 
   });
 
   //Does the contract have an owner?
   it("Contract should assign owner", async function () {
-    const contractOwner = await evenlyDistribute.owner();
-    expect(alice.address).to.equal(contractOwner);
+    const contractOwner = await evenlyDistribute.owner()
+    expect(alice.address).to.equal(contractOwner)
   });
 
   //Can the owner transfer ownership to another address?
   it("Owner can transfer ownership", async function () {
     // console.log(Ev)
     await evenlyDistribute.transferOwnership(bob.address, {from: alice.address})
-    const contractOwner = await evenlyDistribute.owner();
-    expect(bob.address).to.equal(contractOwner);
+    const contractOwner = await evenlyDistribute.owner()
+    expect(bob.address).to.equal(contractOwner)
   });
-  // - Can the owner change maxContribution?
+
+  //Can the owner change maxContribution?
+  it("Owner can change maxContribution", async function () {
+    let initMax = await evenlyDistribute.maxContribution()
+    expect(initMax).to.equal(ethers.utils.parseEther('100'))
+    await evenlyDistribute.updateMax(ethers.utils.parseEther('50'), {from: alice.address})
+    let newMax = await evenlyDistribute.maxContribution()
+    expect(newMax).to.equal(ethers.utils.parseEther('50'))
+  });
   //     - Owner shouldn't be able to set maxContribution to less than largestContribution
   //     - Owner shouldn't be able to set maxContribution to be smaller than 0.1 ether
   // - Can users contribute to the contract?
