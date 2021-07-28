@@ -53,7 +53,7 @@ describe("EvenlyDistribute contract", function () {
   })
   
   //Can users contribute to the contract?
-  it('users should be able to contribute to the contract', async function () {
+  it('Users should be able to contribute to the contract', async function () {
     let res = true;
     try {
       await bob.sendTransaction({
@@ -68,7 +68,7 @@ describe("EvenlyDistribute contract", function () {
   })
 
   //Users cannot contribute more than maxContribution
-  it('users should not be able to contribute more than maxContribution', async function () {
+  it('Users should not be able to contribute more than maxContribution', async function () {
     await assert.revert(
       bob.sendTransaction({
         from: bob.address,
@@ -88,7 +88,18 @@ describe("EvenlyDistribute contract", function () {
       evenlyDistribute.updateMax(ethers.utils.parseEther('20'), {from: alice.address})
     )
   });
-  // - Can a user check their balance?
+
+  //Can a user check their balance?
+  it('User should be able to check their balance', async function () {
+    await bob.sendTransaction({
+      from: bob.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('50'),
+    })
+    let balance = await evenlyDistribute.checkBalance(bob.address, {from: alice.address})
+    expect(balance).to.equal(ethers.utils.parseEther('50'))
+  })
+
   // - Can multiple users contribute to the contract?
   //     - Is largestContribution accurate?
   //     - Is totalContributions accurate?
