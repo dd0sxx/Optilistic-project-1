@@ -2,26 +2,29 @@ const { expect } = require("chai");
 
 describe("EvenlyDistribute contract", function () {
 
+  let alice;
+  let bob;
+  let chris;
+  let EvenlyDistribute
+  let evenlyDistribute;
+
   beforeEach ( async () => {
+    [a, b, c] = await ethers.getSigners();
 
-    const [alice, bob, chris] = await ethers.getSigners();
-    
-    const EvenlyDistribute = await ethers.getContractFactory("EvenlyDistribute");
+    alice = a;
+    bob = b;
+    chris = c;
+  
+    EvenlyDistribute = await ethers.getContractFactory("EvenlyDistribute");
 
-    const evenlyDistribute = await EvenlyDistribute.deploy();
+    evenlyDistribute = await EvenlyDistribute.deploy();
 
   });
 
   //Does the contract have an owner?
   it("Contract should assign owner", async function () {
-    const [owner] = await ethers.getSigners();
-    
-    const EvenlyDistribute = await ethers.getContractFactory("EvenlyDistribute");
-
-    const evenlyDistribute = await EvenlyDistribute.deploy();
-
     const contractOwner = await evenlyDistribute.owner();
-    expect(owner.address).to.equal(contractOwner);
+    expect(alice.address).to.equal(contractOwner);
   });
 
   //Can the owner transfer ownership to another address?
