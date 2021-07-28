@@ -62,7 +62,17 @@ describe("EvenlyDistribute contract", function () {
     }
     
   })
-  // - Users cannot contribute more than maxContribution
+
+  //Users cannot contribute more than maxContribution
+  it('users should not be able to contribute more than maxContribution', async function () {
+    try {
+      await evenlyDistribute.sendTransaction({from: bob.address, value: ethers.utils.parseEther('120')})
+      expect(true).to.equal(true)
+    } catch {
+      expect(false).to.equal(false)
+    }
+    
+  })
   //Owner shouldn't be able to set maxContribution to less than largestContribution
   it("Owner can't change maxContribution to be less than largestContribution'", async function () {
   });
