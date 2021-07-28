@@ -155,7 +155,14 @@ describe("EvenlyDistribute contract", function () {
     )
   })
 
-  //     - Owner should not be able to call lock contract if the contract is already locked
+  //Owner should not be able to call lock contract if the contract is already locked
+  it('Owner should not be able to call lock contract if the contract is already locked', async function () {
+    await evenlyDistribute.lockContract({from: alice.address})
+    await assert.revert(
+      evenlyDistribute.lockContract({from: alice.address})
+    )
+  })
+
   // - Can users withdraw once the contract is locked?
   //     - Users who did not contribute should not be able to withdraw
   //     - User should not be able to withdraw if the game is locked
