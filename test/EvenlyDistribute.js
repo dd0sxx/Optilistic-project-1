@@ -1,4 +1,5 @@
 const { expect } = require("chai")
+const { assert } = require('./utils')
 
 describe("EvenlyDistribute contract", function () {
 
@@ -43,10 +44,19 @@ describe("EvenlyDistribute contract", function () {
     let newMax = await evenlyDistribute.maxContribution()
     expect(newMax).to.equal(ethers.utils.parseEther('50'))
   });
-  //     - Owner shouldn't be able to set maxContribution to less than largestContribution
-  //     - Owner shouldn't be able to set maxContribution to be smaller than 0.1 ether
+  
+  //Owner shouldn't be able to set maxContribution to be smaller than 0.1 ether
+  it("Owner can't change maxContribution to be less than 0.1 ether'", async function () {
+    await assert.revert(
+      evenlyDistribute.updateMax(ethers.utils.parseEther('0.01'), {from: alice.address})
+    )
+  });
+  
   // - Can users contribute to the contract?
   // - Users cannot contribute more than maxContribution
+  //Owner shouldn't be able to set maxContribution to less than largestContribution
+  it("Owner can't change maxContribution to be less than largestContribution'", async function () {
+  });
   // - Can a user check their balance?
   // - Can multiple users contribute to the contract?
   //     - Is largestContribution accurate?
