@@ -193,7 +193,18 @@ describe("EvenlyDistribute contract", function () {
     )
   })
 
-  //User should not be able to withdraw if the game is unlocked
+  //Users should not be able to withdraw if the game is unlocked
+  it('Users should not be able to withdraw if the game is unlocked', async function () {
+    alice.sendTransaction({
+      from: alice.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('25'),
+    })
+      await assert.revert(
+        evenlyDistribute.withdraw({from: alice.address})
+      )
+    })
+
   //Is the amount withdrawn correct?
   //
   // - Find out how to test time based mechanics
