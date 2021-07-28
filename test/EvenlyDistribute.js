@@ -146,7 +146,15 @@ describe("EvenlyDistribute contract", function () {
     let res = await evenlyDistribute.locked()
     expect(res).to.equal(true)
   })
-  //     - regular users should not be able to lock the contract
+
+  //regular users should not be able to lock the contract
+  it('Owner should be able to lock the contract', async function () {
+    await evenlyDistribute.transferOwnership(bob.address, {from: alice.address})
+    await assert.revert(
+      evenlyDistribute.lockContract({from: alice.address})
+    )
+  })
+
   //     - Owner should not be able to call lock contract if the contract is already locked
   // - Can users withdraw once the contract is locked?
   //     - Users who did not contribute should not be able to withdraw
