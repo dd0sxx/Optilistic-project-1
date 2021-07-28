@@ -64,7 +64,7 @@ describe("EvenlyDistribute contract", function () {
   })
   
   //Owner shouldn't be able to set maxContribution to be smaller than 0.1 ether
-  it("Owner can't change maxContribution to be less than 0.1 ether'", async function () {
+  it("Owner can't change maxContribution to be less than 0.1 ether", async function () {
     await assert.revert(
       evenlyDistribute.updateMax(ethers.utils.parseEther('0.01'), {from: alice.address})
     )
@@ -216,7 +216,10 @@ describe("EvenlyDistribute contract", function () {
     assert.bnGt(aliceBalanceAfter, aliceBalanceBefore)
   })
 
-  //Find out how to test time based mechanics
-  //e.g. lockContractOnTime & resetGame functions
+  //cannot test lockContractOnTime or resetGame until I learn how to test contracts which require time to pass
 
 });
+
+// questions
+  // how to change singers? by default I can send contracts from Alice's address, but I get errors if I try and send a contract call from chris
+  // how to write tests for functions taht require time to pass?
