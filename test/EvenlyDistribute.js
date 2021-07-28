@@ -127,6 +127,11 @@ describe("EvenlyDistribute contract", function () {
     })
 
     //Is totalContributions accurate?
+    it('totalContributions should be accurate', async function () {
+      await multipleUsersContribute();
+      let res = await evenlyDistribute.totalContributions()
+      expect(res).to.equal(ethers.utils.parseEther('150'))
+    })
 
     //Is totalParticipants accurate?
   // - Can the owner lock the contract?
