@@ -22,6 +22,24 @@ describe("EvenlyDistribute contract", function () {
 
   })
 
+  const multipleUsersContribute = async function () {
+    await alice.sendTransaction({
+      from: alice.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('25'),
+    })
+    await bob.sendTransaction({
+      from: bob.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('50'),
+    })
+    await chris.sendTransaction({
+      from: chris.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('75'),
+    })
+  }
+
   //Does the contract have an owner?
   it("Contract should assign owner", async function () {
     const contractOwner = await evenlyDistribute.owner()
@@ -100,25 +118,6 @@ describe("EvenlyDistribute contract", function () {
     expect(balance).to.equal(ethers.utils.parseEther('50'))
   })
 
-  //If multiple users contribute to the contract...
-  let multipleUsersContribute = async function () {
-    await alice.sendTransaction({
-      from: alice.address,
-      to: evenlyDistribute.address,
-      value: ethers.utils.parseEther('25'),
-    })
-    await bob.sendTransaction({
-      from: bob.address,
-      to: evenlyDistribute.address,
-      value: ethers.utils.parseEther('50'),
-    })
-    await chris.sendTransaction({
-      from: chris.address,
-      to: evenlyDistribute.address,
-      value: ethers.utils.parseEther('75'),
-    })
-  }
-
     //Is largestContribution accurate?
     it('largestContribution should be accurate', async function () {
       await multipleUsersContribute();
@@ -175,7 +174,16 @@ describe("EvenlyDistribute contract", function () {
   })
 
   //Users should not be able to contribute after the game is locked
-
+  it('Users should not be able to contribute funds once the contract is locked', async function () {
+    await evenlyDistribute.lockContract({from: alice.address})
+    await assert.revert(
+      alice.sendTransaction({
+        from: alice.address,
+        to: evenlyDistribute.address,
+        value: ethers.utils.parseEther('25'),
+      })
+    )
+  })
 
   //     - Users who did not contribute should not be able to withdraw
   //     - User should not be able to withdraw if the game is unlocked
