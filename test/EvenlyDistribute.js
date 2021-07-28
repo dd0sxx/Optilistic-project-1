@@ -141,6 +141,11 @@ describe("EvenlyDistribute contract", function () {
     })
 
   // - Can the owner lock the contract?
+  it('Owner should be able to lock the contract', async function () {
+    await evenlyDistribute.lockContract({from: alice.address})
+    let res = await evenlyDistribute.locked()
+    expect(res).to.equal(true)
+  })
   //     - regular users should not be able to lock the contract
   //     - Owner should not be able to call lock contract if the contract is already locked
   // - Can users withdraw once the contract is locked?
