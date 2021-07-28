@@ -78,9 +78,16 @@ describe("EvenlyDistribute contract", function () {
     )
   })
   //Owner shouldn't be able to set maxContribution to less than largestContribution
-  // it("Owner can't change maxContribution to be less than largestContribution'", async function () {
-
-  // });
+  it("Owner can't change maxContribution to be less than largestContribution", async function () {
+    await bob.sendTransaction({
+      from: bob.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('50'),
+    })
+    await assert.revert(
+      evenlyDistribute.updateMax(ethers.utils.parseEther('20'), {from: alice.address})
+    )
+  });
   // - Can a user check their balance?
   // - Can multiple users contribute to the contract?
   //     - Is largestContribution accurate?
