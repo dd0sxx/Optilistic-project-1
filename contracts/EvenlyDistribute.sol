@@ -8,13 +8,13 @@ contract EvenlyDistribute is Ownable {
     using SafeMath for uint;
 
     mapping(address => uint) public balances;
-    bool private locked; //when the contract is open users can enter the game, when it is locked users can withdraw funds
+    bool public locked; //when the contract is open users can enter the game, when it is locked users can withdraw funds
     uint public maxContribution; //owner set variable defining the maximum value a user can deposit
-    uint private largestContribution; //largest contribution - used to ensrue that the owner does not set the maxContribution to a lower value than this in the middle of a game
-    uint private totalContributions; //sum of all contributions
-    uint private totalParticipants; //number of unique addresses that have contributed
+    uint public largestContribution; //largest contribution - used to ensrue that the owner does not set the maxContribution to a lower value than this in the middle of a game
+    uint public totalContributions; //sum of all contributions
+    uint public totalParticipants; //number of unique addresses that have contributed
     uint public startTime; //time the game was started, used so that if the owner does not lock the contract in 30 days a user can lock the contract themselves
-    uint private lockTime; //time the contract was locked, used to give a window to contributors to withdraw their money before the next game starts
+    uint public lockTime; //time the contract was locked, used to give a window to contributors to withdraw their money before the next game starts
     address[] contributors; //list of unique addresses that have contributed
 
     constructor() {
