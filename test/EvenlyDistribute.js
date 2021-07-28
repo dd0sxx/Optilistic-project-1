@@ -54,28 +54,33 @@ describe("EvenlyDistribute contract", function () {
   
   //Can users contribute to the contract?
   it('users should be able to contribute to the contract', async function () {
+    let res = true;
     try {
-      await evenlyDistribute.sendTransaction({from: bob.address, value: ethers.utils.parseEther('1')})
-      expect(true).to.equal(true)
+      await bob.sendTransaction({
+        from: bob.address,
+        to: evenlyDistribute.address,
+        value: ethers.utils.parseEther('2'),
+      })
     } catch {
-      expect(false).to.equal(false)
+      res = false;
     }
-    
+    expect(res).to.equal(true);
   })
 
   //Users cannot contribute more than maxContribution
   it('users should not be able to contribute more than maxContribution', async function () {
-    try {
-      await evenlyDistribute.sendTransaction({from: bob.address, value: ethers.utils.parseEther('120')})
-      expect(true).to.equal(true)
-    } catch {
-      expect(false).to.equal(false)
-    }
-    
+    await assert.revert(
+      bob.sendTransaction({
+        from: bob.address,
+        to: evenlyDistribute.address,
+        value: ethers.utils.parseEther('120'),
+      })
+    )
   })
   //Owner shouldn't be able to set maxContribution to less than largestContribution
-  it("Owner can't change maxContribution to be less than largestContribution'", async function () {
-  });
+  // it("Owner can't change maxContribution to be less than largestContribution'", async function () {
+
+  // });
   // - Can a user check their balance?
   // - Can multiple users contribute to the contract?
   //     - Is largestContribution accurate?
