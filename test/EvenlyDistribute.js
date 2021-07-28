@@ -29,9 +29,10 @@ describe("EvenlyDistribute contract", function () {
 
   //Can the owner transfer ownership to another address?
   it("Owner can transfer ownership", async function () {
-    
+    // console.log(Ev)
+    await evenlyDistribute.transferOwnership(bob.address, {from: alice.address})
     const contractOwner = await evenlyDistribute.owner();
-    expect(owner.address).to.equal(contractOwner);
+    expect(bob.address).to.equal(contractOwner);
   });
   // - Can the owner change maxContribution?
   //     - Owner shouldn't be able to set maxContribution to less than largestContribution
