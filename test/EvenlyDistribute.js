@@ -90,7 +90,7 @@ describe("EvenlyDistribute contract", function () {
   });
 
   //Can a user check their balance?
-  it('User should be able to check their balance', async function () {
+  it('User should be able to check an addresses balance', async function () {
     await bob.sendTransaction({
       from: bob.address,
       to: evenlyDistribute.address,
@@ -100,10 +100,35 @@ describe("EvenlyDistribute contract", function () {
     expect(balance).to.equal(ethers.utils.parseEther('50'))
   })
 
-  // - Can multiple users contribute to the contract?
-  //     - Is largestContribution accurate?
-  //     - Is totalContributions accurate?
-  //     - Is totalParticipants accurate?
+  //If multiple users contribute to the contract...
+  let multipleUsersContribute = async function () {
+    await alice.sendTransaction({
+      from: alice.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('25'),
+    })
+    await bob.sendTransaction({
+      from: bob.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('50'),
+    })
+    await chris.sendTransaction({
+      from: chris.address,
+      to: evenlyDistribute.address,
+      value: ethers.utils.parseEther('75'),
+    })
+  }
+
+    //Is largestContribution accurate?
+    it('largestContribution should be accurate', async function () {
+      await multipleUsersContribute();
+      let res = await evenlyDistribute.largestContribution()
+      expect(res).to.equal(ethers.utils.parseEther('75'))
+    })
+
+    //Is totalContributions accurate?
+
+    //Is totalParticipants accurate?
   // - Can the owner lock the contract?
   //     - regular users should not be able to lock the contract
   //     - Owner should not be able to call lock contract if the contract is already locked
