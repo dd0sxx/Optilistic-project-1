@@ -134,6 +134,12 @@ describe("EvenlyDistribute contract", function () {
     })
 
     //Is totalParticipants accurate?
+    it('totalParticipants should be accurate', async function () {
+      await multipleUsersContribute();
+      let res = await evenlyDistribute.totalParticipants()
+      expect(res).to.equal(3)
+    })
+
   // - Can the owner lock the contract?
   //     - regular users should not be able to lock the contract
   //     - Owner should not be able to call lock contract if the contract is already locked
