@@ -20,7 +20,7 @@ describe("EvenlyDistribute contract", function () {
 
     evenlyDistribute = await EvenlyDistribute.deploy()
 
-  });
+  })
 
   //Does the contract have an owner?
   it("Contract should assign owner", async function () {
@@ -34,7 +34,7 @@ describe("EvenlyDistribute contract", function () {
     await evenlyDistribute.transferOwnership(bob.address, {from: alice.address})
     const contractOwner = await evenlyDistribute.owner()
     expect(bob.address).to.equal(contractOwner)
-  });
+  })
 
   //Can the owner change maxContribution?
   it("Owner can change maxContribution", async function () {
@@ -43,16 +43,25 @@ describe("EvenlyDistribute contract", function () {
     await evenlyDistribute.updateMax(ethers.utils.parseEther('50'), {from: alice.address})
     let newMax = await evenlyDistribute.maxContribution()
     expect(newMax).to.equal(ethers.utils.parseEther('50'))
-  });
+  })
   
   //Owner shouldn't be able to set maxContribution to be smaller than 0.1 ether
   it("Owner can't change maxContribution to be less than 0.1 ether'", async function () {
     await assert.revert(
       evenlyDistribute.updateMax(ethers.utils.parseEther('0.01'), {from: alice.address})
     )
-  });
+  })
   
-  // - Can users contribute to the contract?
+  //Can users contribute to the contract?
+  it('users should be able to contribute to the contract', async function () {
+    try {
+      await evenlyDistribute.sendTransaction({from: bob.address, value: ethers.utils.parseEther('1')})
+      expect(true).to.equal(true)
+    } catch {
+      expect(false).to.equal(false)
+    }
+    
+  })
   // - Users cannot contribute more than maxContribution
   //Owner shouldn't be able to set maxContribution to less than largestContribution
   it("Owner can't change maxContribution to be less than largestContribution'", async function () {
