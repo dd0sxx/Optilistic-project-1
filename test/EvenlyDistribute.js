@@ -185,11 +185,18 @@ describe("EvenlyDistribute contract", function () {
     )
   })
 
-  //     - Users who did not contribute should not be able to withdraw
-  //     - User should not be able to withdraw if the game is unlocked
-  //     - Is the amount withdrawn correct?
-  //     - 
+  //Users who did not contribute should not be able to withdraw
+  it('Users who did not contribute should not be able to withdraw', async function () {
+  await evenlyDistribute.lockContract({from: alice.address})
+    await assert.revert(
+      evenlyDistribute.withdraw({from: alice.address})
+    )
+  })
+
+  //User should not be able to withdraw if the game is unlocked
+  //Is the amount withdrawn correct?
+  //
   // - Find out how to test time based mechanics
-  //     - e.g. lockContractOnTime & resetGame functions
+  //e.g. lockContractOnTime & resetGame functions
 
 });
