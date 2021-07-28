@@ -206,8 +206,17 @@ describe("EvenlyDistribute contract", function () {
     })
 
   //Is the amount withdrawn correct?
-  //
-  // - Find out how to test time based mechanics
+  it('Contract pays out the correct amount of funds', async function () {
+    await multipleUsersContribute();
+    await evenlyDistribute.lockContract({from: alice.address})
+    const aliceBalanceBefore = await alice.getBalance()
+    // console.log(ethers.utils.formatUnits(aliceBalanceBefore, 'ether'), ethers.utils.formatUnits(bobBalanceBefore, 'ether'), ethers.utils.formatUnits(chrisBalanceBefore, 'ether'))
+    await evenlyDistribute.withdraw({from: alice.address})
+    const aliceBalanceAfter = await alice.getBalance()
+    assert.bnGt(aliceBalanceAfter, aliceBalanceBefore)
+  })
+
+  //Find out how to test time based mechanics
   //e.g. lockContractOnTime & resetGame functions
 
 });
