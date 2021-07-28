@@ -163,9 +163,22 @@ describe("EvenlyDistribute contract", function () {
     )
   })
 
-  // - Can users withdraw once the contract is locked?
+  //Can users withdraw once the contract is locked?
+  it('Users should be able to withdraw funds once the contract is locked', async function () {
+    await multipleUsersContribute();
+    await evenlyDistribute.lockContract({from: alice.address})
+    const balance = await evenlyDistribute.checkBalance(alice.address, {from: alice.address})
+    expect(balance).to.equal(ethers.utils.parseEther('25'))
+    await evenlyDistribute.withdraw({from: alice.address})
+    const newBalance = await evenlyDistribute.checkBalance(alice.address, {from: alice.address})
+    expect(newBalance).to.equal(0)
+  })
+
+  //Users should not be able to contribute after the game is locked
+
+
   //     - Users who did not contribute should not be able to withdraw
-  //     - User should not be able to withdraw if the game is locked
+  //     - User should not be able to withdraw if the game is unlocked
   //     - Is the amount withdrawn correct?
   //     - 
   // - Find out how to test time based mechanics
