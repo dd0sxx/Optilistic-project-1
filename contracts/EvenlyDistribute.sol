@@ -3,6 +3,10 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
+//  TODO: Add a circuit breaker
+//  TODO: Add tests for any time based functions to make sure they work as intended
+//  TODO: 
+
 contract EvenlyDistribute is Ownable {
 
     using SafeMath for uint;
@@ -64,6 +68,7 @@ contract EvenlyDistribute is Ownable {
         balances[msg.sender] = 0;
 
         (bool success, bytes memory data) = msg.sender.call{value: _amount}("");
+        require(success, 'withdraw: Transfer Failed');
         // we could emit an event here with the success and data variables, or change the function to return these values
     }
 
