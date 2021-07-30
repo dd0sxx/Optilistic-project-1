@@ -216,7 +216,7 @@ describe("EvenlyDistribute contract", function () {
     assert.bnGt(aliceBalanceAfter, aliceBalanceBefore)
   })
 
-  //cannot test lockContractOnTime or resetGame until I learn how to test contracts which require time to pass
+  //lockContractOnTime works after 30 days for non owners to 
   it('Users can call lockContractOnTime 30 days after the game has started if the game is still unlocked', async function () {
     await evenlyDistribute.transferOwnership(chris.address, {from: alice.address})
     let owner = await evenlyDistribute.owner()
@@ -226,6 +226,21 @@ describe("EvenlyDistribute contract", function () {
     let isLocked = await evenlyDistribute.locked({from: alice.address})
     expect(isLocked).to.equal(true)
   })
+
+  //lockContractOnTime does not work if a month has not passed
+  it('Users cannot call lockContractOnTime if 30 days has not passed since the game has started', async function () {
+    await evenlyDistribute.transferOwnership(chris.address, {from: alice.address})
+    let owner = await evenlyDistribute.owner()
+    expect(owner).to.equal(chris.address)
+    await assert.revert(evenlyDistribute.lockContractOnTime({from: alice.address}))
+  })
+
+  //resetGame should revert if called less than one week after locking the contract
+  it('resetGame should revert if called less than one week after locking the contract', async function () {
+    await evenlyDistribute.lockContract({from: alice.address})
+    await assert.revert(evenlyDistribute.resetGame({from: alice.address}))
+  })
+
 
 });
 
