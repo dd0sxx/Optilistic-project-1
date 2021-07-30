@@ -205,18 +205,27 @@ describe("EvenlyDistribute contract", function () {
       )
     })
 
-  //Is the amount withdrawn correct?
+  //Is the amount withdrawn correct? 
+  //TODO: improve this test
   it('Contract pays out the correct amount of funds', async function () {
     await multipleUsersContribute();
     await evenlyDistribute.lockContract({from: alice.address})
     const aliceBalanceBefore = await alice.getBalance()
-    // console.log(ethers.utils.formatUnits(aliceBalanceBefore, 'ether'), ethers.utils.formatUnits(bobBalanceBefore, 'ether'), ethers.utils.formatUnits(chrisBalanceBefore, 'ether'))
     await evenlyDistribute.withdraw({from: alice.address})
     const aliceBalanceAfter = await alice.getBalance()
     assert.bnGt(aliceBalanceAfter, aliceBalanceBefore)
   })
 
   //cannot test lockContractOnTime or resetGame until I learn how to test contracts which require time to pass
+  it('Users can call lockContractOnTime 30 days after the game has started if the game is still unlocked', async function () {
+    await evenlyDistribute.transferOwnership(chris.address, {from: alice.address})
+    let owner = await evenlyDistribute.owner()
+    expect(owner).to.equal(chris.address)
+    await hre.ethers.provider.send('evm_increaseTime', [30 * 24 * 60 * 60])
+    await evenlyDistribute.lockContractOnTime({from: alice.address})
+    let isLocked = await evenlyDistribute.locked({from: alice.address})
+    expect(isLocked).to.equal(true)
+  })
 
 });
 
