@@ -240,10 +240,30 @@ describe("EvenlyDistribute contract", function () {
     await evenlyDistribute.lockContract({from: alice.address})
     await assert.revert(evenlyDistribute.resetGame({from: alice.address}))
   })
-
+  
+  //resetGame works after one week has passed since lock
+  it('resetGame works after one week has passed since lock', async function () {
+    await evenlyDistribute.lockContract({from: alice.address})
+    await hre.ethers.provider.send('evm_increaseTime', [7 * 24 * 60 * 60])
+    await evenlyDistribute.resetGame({from: alice.address})
+  })
+  
+  //resetGame resets variables properly
+  it('resetGame works after one week has passed since lock', async function () {
+    await evenlyDistribute.lockContract({from: alice.address})
+    await hre.ethers.provider.send('evm_increaseTime', [7 * 24 * 60 * 60])
+    await evenlyDistribute.resetGame({from: alice.address})
+    let largestContribution = await evenlyDistribute.largestContribution({from: alice.address})
+    let totalParticipants = await evenlyDistribute.totalParticipants({from: alice.address})
+    let totalContributions = await evenlyDistribute.totalContributions({from: alice.address})
+    let locked = await evenlyDistribute.locked({from: alice.address})
+    expect(largestContribution).to.equal(0)
+    expect(totalParticipants).to.equal(0)
+    expect(totalContributions).to.equal(0)
+    expect(locked).to.equal(false)
+  })
 
 });
 
 // questions
   // how to change singers? by default I can send contracts from Alice's address, but I get errors if I try and send a contract call from chris
-  // how to write tests for functions taht require time to pass?

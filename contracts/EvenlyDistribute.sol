@@ -12,7 +12,7 @@ contract EvenlyDistribute is Ownable {
     using SafeMath for uint;
 
     mapping(address => uint) public balances;
-    address[] contributors; //list of unique addresses that have contributed
+    address[] public contributors; //list of unique addresses that have contributed
     uint public maxContribution; //owner set variable defining the maximum value a user can deposit
     uint public largestContribution; //largest contribution - used to ensrue that the owner does not set the maxContribution to a lower value than this in the middle of a game
     uint public totalContributions; //sum of all contributions
