@@ -69,7 +69,6 @@ contract EvenlyDistribute is Ownable {
 
         (bool success, bytes memory data) = msg.sender.call{value: _amount}("");
         require(success, 'withdraw: Transfer Failed');
-        // we could emit an event here with the success and data variables, or change the function to return these values
     }
 
     // reset the game one week after the locktime
@@ -91,6 +90,7 @@ contract EvenlyDistribute is Ownable {
     }
 
     //fallback is equivalent to the contribute function, allows users to enter the game
+    //maybe make contribute it's own function for the sake of having a simple fallback function?
     fallback() external payable {
         //game cannot be locked, contribution cannot be smaller than 1 ether, and contribution cannot exceed maximum set by owner
         require (!locked && msg.value >= 0.1 ether, 'Contribute: game is locked or msg.value < 0.1 ether');
